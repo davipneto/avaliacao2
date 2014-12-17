@@ -23,20 +23,17 @@ public class Ponto {
     
     @Override
     public String toString(){
-        return String.format(getNome() + "(%f,%f,%f)", x,y,z);
+        return String.format("%s(%f,%f,%f)", getNome(), x,y,z);
     }
     
     @Override
     public boolean equals(Object p){
-        if (p == null)
-            return false;
-        if(this.x != ((Ponto)p).x)
-            return false;
-        if(this.y != ((Ponto)p).y)
-            return false;
-        if(this.z != ((Ponto)p).z)
-            return false;
-        return true;
+        boolean equal = false;
+        if (p!=null && p instanceof Ponto){
+            Ponto a = (Ponto)p;
+            equal = x == a.x && y == a.y && z == a.z;
+        }
+        return equal;
     }
     
     public double dist(Ponto p){

@@ -11,8 +11,7 @@ package utfpr.ct.dainf.if62c.avaliacao;
  */
 public class Poligonal {
     private Ponto2D[] vertices;
-    private String plano;
-    private boolean a = false;
+    private Ponto2D plano = null;
     
     public Poligonal(int v){
         if(v<2)
@@ -21,30 +20,31 @@ public class Poligonal {
     }
     
     public int getN(){
-        return vertices.length+1;
+        return vertices.length;
     }
     
     public Ponto2D get(int n){
-        return vertices[n];
+        Ponto2D p = null;
+        if(n>=0 && n<vertices.length)
+            p=vertices[n];
+        return p;
     }
     
     public void set(int n, Ponto2D p){
-        if(n<getN())
-            return;
-        if(a==false){
-            plano = p.getNome();
-            a=true;
+        if(plano == null){
+            plano = p;
         }
-        else if(plano.equals(p.getNome())){
+        if(plano.getClass()!=p.getClass()){
+            throw new RuntimeException("Vértices devem estar no mesmo plano");
+        }
+        if(n>=0 && n<vertices.length)
             vertices[n] = p;
-        }
-        else
-           throw new RuntimeException("Vértices devem estar no mesmo plano");
     }
     
     public double getComprimento(){
         double compr=0;
-        for(int n=0;n<getN()-2;n++){
+        int n;
+        for(n=0;n<getN()-1;n++){
             compr+=vertices[n].dist(vertices[n+1]);
         }
         return compr;
